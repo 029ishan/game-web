@@ -7,6 +7,8 @@ import SignUp from "../Componets/user/SignUp";
 import About from "../Componets/detail/About";
 import Contact from "../Componets/detail/Contact";
 
+import PaymentMethod from "../Componets/user/PaymentMethod";
+
 
 
 
@@ -16,10 +18,12 @@ export const MainRouter = createBrowserRouter(
         <Route>
             <Route path="/" element={<App />}>
 
-                <Route path="detail" element={<Detail />} />
+               
             </Route>
+            <Route path="/detail" element={<Detail />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/payment" element={<PaymentMethod />} />
 
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />

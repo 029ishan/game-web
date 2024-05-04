@@ -1,13 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import logo from "./../assets/Images/logo.png";
-import logo1 from "./../assets/Images/logo1.png";
+
 
 import SideNavGenreList from "./SideNavGenreList";
 import { HiMoon, HiOutlineBars3CenterLeft, HiOutlineMagnifyingGlass, HiOutlineXMark, HiSun } from "react-icons/hi2";
 import { ThemeContext } from "../Context/ThemeContext";
 import { Avatar, Badge, Button, Drawer } from "antd";
 import { TbShoppingCartFilled } from "react-icons/tb";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {  DeleteFilled } from "@ant-design/icons";
+import { removeItem } from "../features/CartSlice";
 
 
 
@@ -54,6 +57,9 @@ function Header() {
     },
   ];
   const navigate = useNavigate();
+  const { cart } = useSelector((state) => state.addtocart)
+  console.log("moc", cart);
+  const dispatch=useDispatch();
 
   return (
 
@@ -91,7 +97,7 @@ function Header() {
             })
           }
           <div className="flex items-center ml-3">
-            <Badge >
+            <Badge count={cart.length}>
               <Avatar
                 size={28}
                 icon={<TbShoppingCartFilled />}
@@ -115,26 +121,6 @@ function Header() {
 
         </div>
 
-        {/* <InputGroup className="mx-8">
-        <InputLeftElement
-          pointerEvents="none"
-          children={<Search2Icon color="gray.300" />}
-        />
-        <Input type="text" variant="filled" placeholder="Search" borderRadius={50} />
-      </InputGroup> */}
-
-        {/* <Switch id="theme"  /> */}
-        {/* <Switch colorScheme='green' isChecked={colorMode === 'dark'} 
-      onChange={toggleColorMode} /> */}
-
-        {/* <HiOutlineBars3CenterLeft className="text-[30px]" />
-      {toggle?
-      <div>
-         <SideNavGenreList/>
-        </div>
-       
-      :null} */}
-        {/* <label className="ml-2">Dark</label> */}
 
       </div>
       <div className="flex justify-end items-center" >
@@ -146,9 +132,38 @@ function Header() {
             onClick={() => setTheme('dark')} />
 
         }
-        
+
         <Drawer title="Added" onClose={onClose} open={open}>
-         
+          <div className=" space-y-2">
+          {cart.map((item) => {
+            return (
+             
+              <div >
+                <section className=" flex justify-between"> 
+                <img src={item.
+                  background_image} className=" h-11" />
+                  <section> 
+                <h1 className=" text-[10px]">{item.name}</h1>
+                <h1 className=" text-[10px] ">Price: {item.reviews_count} Rs </h1>
+                </section>
+                <Button  onClick={()=>dispatch(removeItem(item.id))}><DeleteFilled size={25}/></Button>
+                </section>
+                
+               
+              </div>
+            )
+          })
+
+          }
+          <section>
+            <Link to={"payment"}> 
+                  <button className="bg-green-500 mt-2" >
+                    Buy Now
+                  </button>
+                  </Link>
+                </section>
+               
+          </div>
         </Drawer>
       </div>
 

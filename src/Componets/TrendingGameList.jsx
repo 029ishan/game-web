@@ -1,7 +1,20 @@
 import React from "react";
 import { TbShoppingCartFilled } from "react-icons/tb";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../features/CartSlice";
+import {showData} from "../features/DetailSlice"
+import { useNavigate } from "react-router-dom";
 
 function TrendingGameList({ gameList }) {
+  const navigate=useNavigate();
+  const handleDetail=(item)=>{
+    dispatch(showData([item]));
+    navigate("/detail")
+     
+  }
+  const dispatch=useDispatch();
+
+
   return (
     <div className="hidden md:block mt-5">
       <h2 className="font-bold text-[30px] dark:text-white">Trending Games</h2>
@@ -12,13 +25,14 @@ function TrendingGameList({ gameList }) {
         {gameList.map(
           (item, index) =>
             index < 4 && (
-              <div
+              <div 
                 className="pb-14  
                 hover:scale-110 transition-all  relative duration-300 cursor-pointer"
-                onClick={() => getMovieDetails(item.id)}
+               
+                
                 key={item.id}
               >
-                
+                <div onClick={()=>handleDetail((item))}>
                 <img
                   src={item.background_image}
                   width={1080}
@@ -29,14 +43,13 @@ function TrendingGameList({ gameList }) {
                   <h2 className=" dark:text-white  text-[20px] font-bold ">
                     {item.name}
                     
-                    {/* <span className="p-1 rounded-sm ml-2 text-[10px] bg-green-100 text-green-700 font-medium">
-                      {item.metacritic}
-                    </span> */}
+                   
                   </h2>
                   <h2> {item.price} </h2>
                 </div>
+                </div>
                 <section className="flex justify-center">
-                        <button className="flex items-center gap-1 shadow-black shadow-md">Add to cart
+                        <button className="flex items-center gap-1 shadow-black shadow-md"onClick={()=>dispatch(addToCart(item))}>Add to cart 
                            <TbShoppingCartFilled/> </button>
                     </section>
               </div>
